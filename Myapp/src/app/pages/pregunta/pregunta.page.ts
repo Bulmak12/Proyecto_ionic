@@ -37,9 +37,9 @@ export class PreguntaPage implements OnInit {
 
   public validarRespuestaSecreta(): void {
     if (this.usuario.respuestaSecreta === this.respuesta) {
-      alert('CORRECTO!!! TU CLAVE ES ' + this.usuario.password);
+      this.router.navigate(['/correcto'])
     } else {
-      alert('LA RESPUESTA ES INCORRECTA');
+      this.router.navigate(['/incorrecto'])
       // Aquí puedes decidir si redirigir al usuario a alguna página en caso de respuesta incorrecta
       // Por ejemplo, redirigirlo a una página de recuperación de contraseña
       // this.router.navigate(['/recuperar-contrasena']);

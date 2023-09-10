@@ -32,6 +32,10 @@ const routes: Routes = [
     path: 'qrreader',
     loadChildren: () => import('./pages/qrreader/qrreader.module').then( m => m.QrreaderPageModule)
   },
+  {
+    path: 'correcto',
+    loadChildren: () => import('./pages/correcto/correcto.module').then( m => m.CorrectoPageModule)
+  },
 ];
 
 @NgModule({

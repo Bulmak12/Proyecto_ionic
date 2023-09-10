@@ -1,13 +1,31 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>Incorrecto</ion-title>
+  <ion-toolbar class="ion-align-items-center">
+    <ion-thumbnail slot="start" class="center-horizontal">
+      <img src="../../../assets/Imagenes/logoDuocCirculo.png" alt="Imagen en el toolbar" />
+    </ion-thumbnail>
+    <ion-title class="ion-text-center">Incorrecto</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" class="fondoHome">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Incorrecto</ion-title>
+      <ion-title size="large" class="ion-text-center">Incorrecto</ion-title>
     </ion-toolbar>
   </ion-header>
+
+  <ion-card class="mi-card">
+    <ion-card-header>
+      <img class="img_e" alt="naonao" src="../../../assets/Imagenes/naonao.jpg" />
+      <ion-card-title>Algo salio mal</ion-card-title>    </ion-card-header>
+  
+    <ion-card-content>
+      El correo ingresado no posee una cuenta o fallaste la pregunta de seguridad
+    </ion-card-content>
+    <ion-button class="botonNaranja" shape="round" (click)="redirectToHome()">Volver al Login</ion-button>
+  </ion-card>
+
+
+
+
 </ion-content>

@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { PreguntaPageRoutingModule } from './pregunta-routing.module';
+import { QrreaderPageRoutingModule } from './qrreader-routing.module';
 
-import { PreguntaPage } from './pregunta.page';
+import { QrreaderPage } from './qrreader.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    PreguntaPageRoutingModule,
+    QrreaderPageRoutingModule
   ],
-  declarations: [PreguntaPage]
+  declarations: [QrreaderPage]
 })
-export class PreguntaPageModule {}
+export class QrreaderPageModule {}

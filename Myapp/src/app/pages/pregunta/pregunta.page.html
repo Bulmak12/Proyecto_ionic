@@ -1,15 +1,25 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>pregunta</ion-title>
+<ion-header [translucent]="true">
+  <ion-toolbar class="ion-align-items-center">
+    <ion-thumbnail slot="start" class="center-horizontal">
+      <img src="../../../assets/Imagenes/logoDuocCirculo.png" alt="Imagen en el toolbar" />
+    </ion-thumbnail>
+    <ion-title class="ion-text-center">Pregunta de seguridad</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-content>
-    <ion-card>
-      <ion-card-subtitle>Ingresa tu respuesta</ion-card-subtitle>
-      <ion-input type="text" [(ngModel)]="respuesta" placeholder="Ingresa tu correo"></ion-input>
-      <a (click)="validarRespuestaSecreta()">Recuperar contraseña</a>
+  <ion-content class="fondoHome">
+    <ion-card class="mi-card">
+      <h1></h1>
+      <img class="img_e" src="../../../assets/Imagenes/mascota.jpg" alt="mascota">
+      <h1></h1>
+      <ion-card-title>Pregunta de seguridad</ion-card-title>
+      <h1></h1>
+      <ion-card-subtitle>¿Cuall es el nombre de tu mascota?</ion-card-subtitle>
+      <ion-input type="text" [(ngModel)]="respuesta" placeholder="Ingresa tu respuesta"></ion-input>
+      <ion-button class="botonNaranja" shape="round" (click)="validarRespuestaSecreta()">Recuperar contraseña</ion-button>
+      <ion-button class="botonNaranja" shape="round" routerLink="/login">Volver al Login</ion-button>
+      <h1></h1>
     </ion-card>
   </ion-content>
 </ion-content>

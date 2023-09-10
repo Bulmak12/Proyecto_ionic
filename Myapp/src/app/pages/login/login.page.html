@@ -1,4 +1,5 @@
-<ion-content>
+
+<ion-content class="fondoHome">
   
   <!-- 
     Se establece un título que este separado de <ion-content>
@@ -9,11 +10,8 @@
     Ver: https://ionicframework.com/docs/layout/css-utilities#element-padding
   -->
   <ion-title class="ion-padding-top ion-text-center">
-    <h1>SkeletonAPP</h1>
-    <ion-label>
-      <p>Aquí comienza todo</p>
-    </ion-label>
-  </ion-title>
+    <img src="../../../assets/Imagenes/logoDuocCirculo.png" alt="Descripción de la imagen">
+</ion-title>
   
   <!--
     Se genera una división donde estará el contenido del login,
@@ -30,6 +28,7 @@
       <ion-card-title class="ion-text-center">
         <ion-label>
           <h2>¡Bienvenido!</h2>
+          <p>Para continuar ingrese sus credenciales</p>
         </ion-label>
       </ion-card-title>
 
@@ -51,15 +50,14 @@
           </ion-item>
 
           <!-- Se debe usar (click) para enlazar con el método de la clase en typescript -->
-          <ion-button shape="block" (click)="ingresar()">Ingresar</ion-button>
+          <ion-button shape="block" (click)="ingresar()" class="botonNaranja">Ingresar</ion-button>
 
         </ion-card-content>
       </form>
       
       <ion-label>
         <br>
-        <a shape="block" (click)="recuperar()"
-        routerLink="">Recuperar Contraseña</a>
+        <a class="mi-enlace" shape="block" (click)="recuperar()" routerLink="">Recuperar Contraseña</a>
       </ion-label>
     </ion-card>
     </div>

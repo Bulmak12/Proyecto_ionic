@@ -1,8 +1,7 @@
-
-import { AfterViewInit,Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
-import { AnimationController} from '@ionic/angular';
+import { AnimationController } from '@ionic/angular';
 import { Usuario } from 'src/app/model/usuario';
 
 @Component({
@@ -20,39 +19,31 @@ export class HomePage implements OnInit, AfterViewInit {
   @ViewChild('itemFechaNacimiento', { read: ElementRef }) itemFechaNacimiento!: ElementRef;
 
   public usuario: Usuario;
+  public animationState: string = 'start'; // Agrega esta propiedad
 
-   constructor(
-        private activeroute: ActivatedRoute // Permite obtener los parámetros de la página login
-      , private router: Router // Permite navegar entre páginas
-      , private alertController: AlertController // Permite mostrar mensajes emergentes más complejos que Toast
-      , private animationController: AnimationController) { // Permite crear animaciones con  
-
+  constructor(
+    private activeroute: ActivatedRoute,
+    private router: Router,
+    private alertController: AlertController,
+    private animationController: AnimationController
+  ) {
     this.usuario = new Usuario('', '', '', '', '', '');
-    // Se llama a la ruta activa y se obtienen sus parámetros mediante una subscripcion
-    this.activeroute.queryParams.subscribe(params => { 
-
+    this.activeroute.queryParams.subscribe(params => {
       const nav = this.router.getCurrentNavigation();
       if (nav) {
-        // Si tiene datos extra, se rescatan y se asignan a una propiedad
         if (nav.extras.state) {
           this.usuario = nav.extras.state['usuario'];
           return;
         }
       }
-      // Si no vienen datos extra desde la página anterior, quiere decir que el usuario
-      // intentó entrar directamente a la página home sin pasar por el login,
-      // de modo que el sistema debe enviarlo al login para que inicie sesión.
       this.router.navigate(['/login']);
-
     });
   }
 
-  public ngOnInit(): void {
-
+  ngOnInit() {
   }
 
-
-  public ngAfterViewInit(): void {
+  ngAfterViewInit() {
     if (this.itemTitulo) {
       const animation = this.animationController
         .create()
@@ -66,8 +57,7 @@ export class HomePage implements OnInit, AfterViewInit {
     }
   }
 
-  public limpiarFormulario(): void {
-
+  limpiarFormulario(): void {
     this.usuario.nombre = '';
     this.usuario.apellido = '';
 
@@ -77,7 +67,7 @@ export class HomePage implements OnInit, AfterViewInit {
     this.animateItem(this.itemFechaNacimiento.nativeElement);
   }
 
-  public animateItem(elementRef: any) {
+  animateItem(elementRef: any) {
     this.animationController
       .create()
       .addElement(elementRef)
@@ -87,16 +77,13 @@ export class HomePage implements OnInit, AfterViewInit {
       .play();
   }
 
-  public mostrarDatosPersona(): void {
-    
-    // Si el usuario no ingresa al menos el nombre o el apellido, se mostrará un error
+  mostrarDatosPersona(): void {
     if (this.usuario.nombre.trim() === '' && this.usuario.apellido === '') {
       this.presentAlert('Datos personales', 'Para mostrar los datos de la persona, '
         + 'al menos debe tener un valor para el nombre o el apellido.');
       return;
     }
 
-    // Mostrar un mensaje emergente con los datos de la persona
     let mensaje = '';
     if (this.usuario) {
       mensaje += '<br><b>Usuario</b>: <br>' + this.usuario.getCorreo();
@@ -107,8 +94,7 @@ export class HomePage implements OnInit, AfterViewInit {
     }
   }
 
-  // Este método sirve para mostrar un mensaje emergente
-  public async presentAlert(titulo: string, mensaje: string) {
+  async presentAlert(titulo: string, mensaje: string) {
     const alert = await this.alertController.create({
       header: titulo,
       message: mensaje,
@@ -116,5 +102,10 @@ export class HomePage implements OnInit, AfterViewInit {
     });
 
     await alert.present();
+  }
+
+  // Agrega esta función para redirigir a la página qrreader
+  public redirectToQRReader(): void {
+    this.router.navigate(['/qrreader']);
   }
 }

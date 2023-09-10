@@ -4,3 +4,24 @@ ion-content{
     --padding-end: 20px;
     --padding-start: 20px;
   }
+
+  .mi-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 700px; /* Ancho máximo deseado */
+    height: 100%;
+    max-height: 600px; /* Altura máxima deseada */
+    margin: 0 auto; /* Centra horizontalmente el card */
+  }
+  
+  /* Ajusta el tamaño de la imagen si es necesario */
+  .mi-card img {
+    max-width: 100%;
+    height: auto;
+  }
+  .espacio {
+    margin-top: 10px; /* Puedes ajustar el valor según el espacio deseado */
+  }

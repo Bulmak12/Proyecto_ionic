@@ -28,6 +28,10 @@ const routes: Routes = [
     path: 'pregunta',
     loadChildren: () => import('./pages/pregunta/pregunta.module').then( m => m.PreguntaPageModule)
   },
+  {
+    path: 'qrreader',
+    loadChildren: () => import('./pages/qrreader/qrreader.module').then( m => m.QrreaderPageModule)
+  },
 ];
 
 @NgModule({

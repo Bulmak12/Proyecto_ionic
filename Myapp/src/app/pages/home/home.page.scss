@@ -1,6 +1,16 @@
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
 #container {
   text-align: center;
-
   position: absolute;
   left: 0;
   right: 0;
@@ -16,12 +26,44 @@
 #container p {
   font-size: 16px;
   line-height: 22px;
-
   color: #8c8c8c;
-
   margin: 0;
 }
 
 #container a {
   text-decoration: none;
+}
+
+.mi-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 80%; /* Ancho deseado */
+  max-width: 700px; /* Ancho máximo deseado */
+  margin: 50px auto; /* Centra horizontalmente el card */
+  text-align: center; /* Centra el texto dentro de la tarjeta */
+  animation: slideIn 1s ease-in-out; /* Aplica la animación slideIn */
+}
+
+ion-card-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.img_e {
+  max-width: 50%; /* Ajusta el ancho de la imagen al ancho del contenedor */
+}
+
+ion-thumbnail[start] {
+  --background: transparent;
+  animation: none;
+}
+
+ion-thumbnail[end] {
+  --background: transparent;
+  animation: none;
+  opacity: 1;
+  transform: translate(100%);
 }

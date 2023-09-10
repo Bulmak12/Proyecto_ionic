@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router'; // Importa Router
 
 @Component({
   selector: 'app-incorrecto',
@@ -7,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class IncorrectoPage implements OnInit {
 
-  constructor() { }
+  constructor(private router: Router) { } // Agrega Router como dependencia
 
   ngOnInit() {
   }
 
+  public redirectToHome(): void {
+    this.router.navigate(['/']); // Redirige a la página de inicio (tu página de inicio de sesión)
+  }
 }

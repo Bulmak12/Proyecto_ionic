@@ -1,5 +1,5 @@
 <ion-header [translucent]="true">
-  <ion-toolbar class="ion-align-items-center">
+  <ion-toolbar class="ion-align-items-center custom-header">
     <ion-thumbnail slot="start" class="center-horizontal">
       <img src="../../../assets/Imagenes/logoDuocCirculo.png" alt="Imagen en el toolbar" />
     </ion-thumbnail>
@@ -8,13 +8,14 @@
 </ion-header>
 
 <ion-content class="fondoHome">
-  <ion-card class="mi-card">
+  <ion-card class="mi-card custom-card">
     <img alt="Silhouette of mountains" src="../../../assets/Imagenes/recuperar.webp" />
     <ion-card-header>
-      <ion-card-title>Ingresa tu correo</ion-card-title>
+      <ion-card-title class="blanco">Recuperar contraseña</ion-card-title>
     </ion-card-header>
     <ion-card-content class="ion-text-center">
-      <ion-input type="text" [(ngModel)]="correo" placeholder="Aqui ingresa tu correo"></ion-input>
+      <h2>Paso 1: ingresa tu correo</h2>
+      <ion-input type="text" [(ngModel)]="correo" placeholder="Ingresa tu correo"></ion-input>
       <!-- Agrega un espacio entre el input y el botón usando una <div> -->
       <div class="espacio"></div>
       <ion-button class="botonNaranja" shape="block" (click)="IngresarPaginaValidarRespuestaSecreta()">Recuperar Contraseña</ion-button>

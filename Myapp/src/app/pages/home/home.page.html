@@ -1,5 +1,5 @@
 <ion-header [translucent]="true">
-  <ion-toolbar class="ion-align-items-center">
+  <ion-toolbar class="ion-align-items-center custom-header blanco">
     <ion-thumbnail slot="start" class="center-horizontal">
       <img src="../../../assets/Imagenes/logoDuocCirculo.png" alt="Imagen en el toolbar" [@animation]="animationState" />
     </ion-thumbnail>
@@ -13,17 +13,17 @@
     </ion-toolbar>
   </ion-header>
 
-  <ion-card class="mi-card">
+  <ion-card class="mi-card custom-card">
     <h1>
     </h1>
     <ion-card-header>
-      <ion-card-title>Bienvenido al Home</ion-card-title>
+      <ion-card-title class="blanco">Bienvenido al Home</ion-card-title>
       <ion-card-subtitle>¿Qué vamos a hacer hoy?</ion-card-subtitle>
     </ion-card-header>
   
     <ion-card-content>
       <!-- Agrega el botón dentro del card -->
-      <ion-button class="botonNaranja" expand="full" (click)="redirectToQRReader()">
+      <ion-button class="botonNaranja" expand="full" (click)="redirectToQRReader()" shape="round">
         Ir al lector de QR
       </ion-button>
     </ion-card-content>

@@ -1,6 +1,6 @@
 <ion-header [translucent]="true">
-  <ion-toolbar class="ion-align-items-center">
-    <ion-thumbnail slot="start" class="center-horizontal">
+  <ion-toolbar class="ion-align-items-center custom-header">
+    <ion-thumbnail slot="start" class="center-horizontal ">
       <img src="../../../assets/Imagenes/logoDuocCirculo.png" alt="Imagen en el toolbar" />
     </ion-thumbnail>
     <ion-title class="ion-text-center">Correcto</ion-title>
@@ -14,18 +14,20 @@
     </ion-toolbar>
   </ion-header>
 
-  <ion-card class="mi-card">
+  <ion-card class="mi-card custom-card">
     <ion-card-header>
       <img class="img_e" alt="hombre" src="../../../assets/Imagenes/R.jpg" />
-      <h1>¡CORRECTO!</h1>
+      <h1 class="blanco">¡CORRECTO!</h1>
     </ion-card-header>
   
     <ion-card-content>
       <H2>Tu contraseña es:</H2>
       <br>
       <p *ngIf="usuario"> {{ usuario.password }}</p>  
+    <h1></h1>
     </ion-card-content>
     <ion-button class="botonNaranja" shape="round" (click)="redirectToHome()">Volver al Login</ion-button>
+    <h1></h1>
   </ion-card>
 
 

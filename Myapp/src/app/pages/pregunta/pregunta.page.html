@@ -1,5 +1,5 @@
 <ion-header [translucent]="true">
-  <ion-toolbar class="ion-align-items-center">
+  <ion-toolbar class="ion-align-items-center custom-header">
     <ion-thumbnail slot="start" class="center-horizontal">
       <img src="../../../assets/Imagenes/logoDuocCirculo.png" alt="Imagen en el toolbar" />
     </ion-thumbnail>
@@ -9,13 +9,13 @@
 
 <ion-content>
   <ion-content class="fondoHome">
-    <ion-card class="mi-card">
+    <ion-card class="mi-card custom-card">
       <h1></h1>
       <img class="img_e" src="../../../assets/Imagenes/mascota.jpg" alt="mascota">
       <h1></h1>
-      <ion-card-title>Pregunta de seguridad</ion-card-title>
+      <ion-card-title class="blanco">Pregunta de seguridad</ion-card-title>
       <h1></h1>
-      <ion-card-subtitle>¿Cuall es el nombre de tu mascota?</ion-card-subtitle>
+      <ion-card-subtitle class="blanco">¿Cual es el nombre de tu mascota?</ion-card-subtitle>
       <ion-input type="text" [(ngModel)]="respuesta" placeholder="Ingresa tu respuesta"></ion-input>
       <ion-button class="botonNaranja" shape="round" (click)="validarRespuestaSecreta()">Recuperar contraseña</ion-button>
       <ion-button class="botonNaranja" shape="round" routerLink="/login">Volver al Login</ion-button>

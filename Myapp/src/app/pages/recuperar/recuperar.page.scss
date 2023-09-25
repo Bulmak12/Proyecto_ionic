@@ -1,45 +1,45 @@
 ion-content{
-    --padding-top: 20px;
-    --padding-bottom: 20px;
-    --padding-end: 20px;
-    --padding-start: 20px;
-  }
-
-  .mi-card {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    max-width: 700px; /* Ancho máximo deseado */
-    height: 100%;
-    max-height: 600px; /* Altura máxima deseada */
-    margin: 0 auto; /* Centra horizontalmente el card */
-  }
-  
-  /* Ajusta el tamaño de la imagen si es necesario */
-  .mi-card img {
-    max-width: 100%;
-    height: auto;
-  }
-  .espacio {
-    margin-top: 10px; /* Puedes ajustar el valor según el espacio deseado */
-  }
-
-  .custom-header {
-    --ion-toolbar-background: rgb(43, 42, 42);
-    --ion-tab-bar-background: rgb(43, 42, 42);
-    --ion-card-background: rgb(43, 42, 42);
-    color: white; /* Cambiar el color del texto a blanco o el que desees */
+  --padding-top: 20px;
+  --padding-bottom: 20px;
+  --padding-end: 20px;
+  --padding-start: 20px;
 }
-  
-  /* Cambiar el fondo de la tarjeta a negro */
-  .custom-card {
-    background-color: rgb(43, 42, 42);
-    color: white; /* Cambiar el color del texto a blanco o el que desees */
+
+.mi-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 700px; /* Ancho máximo deseado */
+  height: 100%;
+  max-height: 600px; /* Altura máxima deseada */
+  margin: 0 auto; /* Centra horizontalmente el card */
+}
+
+/* Ajusta el tamaño de la imagen si es necesario */
+.mi-card img {
+  max-width: 100%;
+  height: auto;
+}
+.espacio {
+  margin-top: 10px; /* Puedes ajustar el valor según el espacio deseado */
+}
+
+.custom-header {
+  --ion-toolbar-background: rgb(43, 42, 42);
+  --ion-tab-bar-background: rgb(43, 42, 42);
+  --ion-card-background: rgb(43, 42, 42);
+  color: white; /* Cambiar el color del texto a blanco o el que desees */
+}
+
+/* Cambiar el fondo de la tarjeta a negro */
+.custom-card {
+  background-color: rgb(43, 42, 42);
+  color: white; /* Cambiar el color del texto a blanco o el que desees */
 }
 
 .blanco{
 
-    color: white;
+  color: white;
 }

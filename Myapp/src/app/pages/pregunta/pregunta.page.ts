@@ -1,6 +1,6 @@
-import { ActivatedRoute, Router } from '@angular/router';
-import { Usuario } from 'src/app/model/usuario';
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
+import { Usuario } from 'src/app/model/usuario';
 
 @Component({
   selector: 'app-pregunta',
@@ -8,41 +8,38 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./pregunta.page.scss'],
 })
 export class PreguntaPage implements OnInit {
-  public usuario: Usuario;
+
+  public usuario: Usuario | null;
   public respuesta: string = '';
-  public respuestaIncorrecta: boolean = false;
 
   constructor(
-    private activeroute: ActivatedRoute,
+    private activedRoute: ActivatedRoute,
     private router: Router
   ) {
-    this.usuario = new Usuario('', '', '', '', '', '');
+    this.usuario = null; // Inicializa con null u otro valor por defecto
 
-    this.activeroute.queryParams.subscribe(params => {
-      const nav = this.router.getCurrentNavigation();
-      if (nav) {
-        if (nav.extras.state) {
-          this.usuario = nav.extras.state['usuario'];
-          return;
-        }
+    this.activedRoute.queryParams.subscribe((params) => {
+      const navigationState = this.router.getCurrentNavigation()?.extras?.state;
+      if (navigationState && 'usuario' in navigationState) {
+        this.usuario = navigationState['usuario'];
+      } else {
+        this.router.navigate(['/login']);
       }
-
-      // Redirige al usuario a la página de inicio de sesión (login)
-      this.router.navigate(['/login']);
     });
   }
 
-  ngOnInit() {
-  }
-
   public validarRespuestaSecreta(): void {
-    if (this.usuario.respuestaSecreta === this.respuesta) {
-      this.router.navigate(['/correcto'])
+    if (this.usuario && this.usuario.respuestaSecreta === this.respuesta) {
+      const navigationExtras: NavigationExtras = {
+        state: {
+          usuario: this.usuario
+        }
+      };
+      this.router.navigate(['/correcto'],navigationExtras)
     } else {
       this.router.navigate(['/incorrecto'])
-      // Aquí puedes decidir si redirigir al usuario a alguna página en caso de respuesta incorrecta
-      // Por ejemplo, redirigirlo a una página de recuperación de contraseña
-      // this.router.navigate(['/recuperar-contrasena']);
     }
   }
+
+  ngOnInit() {}
 }

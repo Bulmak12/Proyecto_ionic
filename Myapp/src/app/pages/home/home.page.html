@@ -18,13 +18,15 @@
     </h1>
     <ion-card-header>
       <ion-card-title class="blanco">Bienvenido al Home</ion-card-title>
+      <p *ngIf="usuario"> {{ usuario.nombre }} {{usuario.apellido}}
+      </p>
       <ion-card-subtitle>¿Qué vamos a hacer hoy?</ion-card-subtitle>
     </ion-card-header>
   
     <ion-card-content>
       <!-- Agrega el botón dentro del card -->
       <ion-button class="botonNaranja" expand="full" (click)="redirectToQRReader()" shape="round">
-        Ir al lector de QR
+        Ir a registrar asistencia
       </ion-button>
     </ion-card-content>
     <h1></h1>

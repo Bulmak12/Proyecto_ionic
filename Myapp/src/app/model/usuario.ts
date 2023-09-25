@@ -52,16 +52,16 @@ export class Usuario extends Persona {
     lista.push(new Usuario(
         'jperez@duocuc.cl'
       , '5678'
-      , '¿Cuál es tu animal favorito?'
-      , 'perro'
+      , '¿Cuál es tu comida favorita?'
+      , 'pizza'
       , 'Juan'
       , 'Pérez'
       ));
     lista.push(new Usuario(
         'cmujica@duocuc.cl'
       , '0987'
-      , '¿Cuál es tu animal favorito?'
-      , 'zorro'
+      , '¿Cuál es tu helado favorito?'
+      , 'chocolate'
       , 'Carla'
       , 'Mujica'
       ));

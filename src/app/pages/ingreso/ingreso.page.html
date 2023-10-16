@@ -1,0 +1,69 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Asistencia DUOC</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="fondoHome">
+  
+  <!-- 
+    Se establece un título que este separado de <ion-content>
+    mediante el class ion-padding-top
+    y que el texto <ion-label> y su contenido este centrado
+    mediante el class ion-text-center
+    Ver: https://ionicframework.com/docs/layout/css-utilities#text-alignment
+    Ver: https://ionicframework.com/docs/layout/css-utilities#element-padding
+  -->
+  <ion-title class="ion-padding-top ion-text-center">
+    <img src="../../../assets/Imagenes/logoDuocCirculo.png" alt="Descripción de la imagen">
+</ion-title>
+  
+  <!--
+    Se genera una división donde estará el contenido del login,
+    para esto se utilizara ion-padding-vertical que aplica un
+    relleno arriba y abajo de 16px por defecto
+    Ver: https://ionicframework.com/docs/layout/css-utilities#element-padding
+  -->
+  <div class="ion-padding-vertical">
+    
+    <!-- Se establece un card que contendrá un título y un contenido -->
+    <ion-card class="ion-text-center ion-padding-vertical mi-card custom-card">
+
+      <!-- Título del card -->
+      <ion-card-title class="ion-text-center">
+        <ion-label>
+          <h2>¡Bienvenido!</h2>
+          <p>Para continuar ingrese sus credenciales</p>
+        </ion-label>
+      </ion-card-title>
+
+      <!-- Formulario de login -->
+        <!-- Contenido del card -->
+          
+          <!-- Item de correo -->
+          <ion-item>
+            <!-- Usamos ngModel para indicarle al input que se ligará con la propiedad "usuario.correo" -->
+           
+           <ion-input [(ngModel)]="correo" type="text" label="Correo" labelPlacement="floating"></ion-input>
+
+          </ion-item>
+          
+          <!-- Item de contraseña -->
+          <ion-item>
+            <!-- Usamos ngModel para indicarle al input que se ligará con la propiedad "usuario.password" -->
+            <ion-input [(ngModel)]="password" type="text" label="Contraseña" labelPlacement="floating"></ion-input>
+
+          </ion-item>
+
+          <!-- Se debe usar (click) para enlazar con el método de la clase en typescript -->
+          <ion-button shape="block" (click)="ingresar()" class="botonNaranja">Ingresar</ion-button>
+
+      
+      <ion-label>
+        <br>
+        <ion-button shape="block" (click)="recuperar()" routerLink="">Recuperar Contraseña</ion-button>
+      </ion-label>
+    </ion-card>
+    </div>
+
+</ion-content>

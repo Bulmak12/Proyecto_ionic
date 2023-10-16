@@ -1,0 +1,38 @@
+.mi-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 80%; /* Ancho deseado */
+  max-width: 700px; /* Ancho máximo deseado */
+  margin: 50px auto; /* Centra horizontalmente el card */
+  text-align: center; /* Centra el texto dentro de la tarjeta */
+}
+
+ion-card-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.img_e {
+  max-width: 50%; /* Ajusta el ancho de la imagen al ancho del contenedor */
+}
+
+.custom-header {
+  --ion-toolbar-background: rgb(43, 42, 42);
+  --ion-tab-bar-background: rgb(43, 42, 42);
+  --ion-card-background: rgb(43, 42, 42);
+  color: white; /* Cambiar el color del texto a blanco o el que desees */
+}
+
+/* Cambiar el fondo de la tarjeta a negro */
+.custom-card {
+  background-color: rgb(43, 42, 42);
+  color: white; /* Cambiar el color del texto a blanco o el que desees */
+}
+
+.blanco{
+
+  color: white;
+}

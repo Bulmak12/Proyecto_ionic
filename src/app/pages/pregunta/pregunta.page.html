@@ -1,0 +1,25 @@
+<ion-header [translucent]="true">
+  <ion-toolbar class="ion-align-items-center custom-header">
+    <ion-thumbnail slot="start" class="center-horizontal">
+      <img src="../../../assets/Imagenes/logoDuocCirculo.png" alt="Imagen en el toolbar" />
+    </ion-thumbnail>
+    <ion-title class="ion-text-center">Pregunta de seguridad</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+  <ion-content class="fondoHome">
+    <ion-card class="mi-card custom-card">
+      <h1></h1>
+      <img class="img_e" src="../../../assets/Imagenes/istockphoto-1388645967-612x612.jpg" alt="mascota">
+      <h1></h1>
+      <ion-card-title class="blanco">Pregunta de seguridad</ion-card-title>
+      <h1></h1>
+      <br><p *ngIf="usuario"> {{ usuario.preguntaSecreta }}</p>
+      <ion-input type="text" [(ngModel)]="respuestaSecreta" placeholder="Ingresa tu respuesta"></ion-input>
+      <ion-button class="botonNaranja" shape="round" (click)="verificarRespuesta()">Recuperar contraseña</ion-button>
+      <ion-button class="botonNaranja" (click)="ingreso()"   shape="round">
+        volver al login
+      </ion-button>
+      <h1></h1>
+    </ion-card>
+</ion-content>

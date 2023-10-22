@@ -1,3 +1,27 @@
-<p>
-  qr works!
-</p>
+<ion-content class="ion-padding ion-text-center ">
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title> ¡Bienvenido(a)!</ion-card-title>
+      <ion-card-subtitle>{{usuario.nombre}} {{usuario.apellido}}</ion-card-subtitle>
+      <br>
+      <ion-label>Escanea  el codigo QR para registar tu asistencia a clases</ion-label>
+    </ion-card-header>
+  
+    <ion-card-content>
+      <ion-button *ngIf="!escaneando" (click)="comenzarEscaneoQR()">
+      <ion-icon slot="start" name="videocam-outline"></ion-icon>
+      Comenzar Escaneo de QR
+      </ion-button>
+
+      <ion-button *ngIf="escaneando && plataforma === 'web'" (click)="detenerEscaneoQR()">
+      <ion-icon slot="start" name="stop-circle-outline"></ion-icon>
+      Detener escaneo de QR
+      </ion-button>
+
+      <video #video [hidden]="!escaneando" width="100%"></video>
+        <canvas #canvas hidden></canvas>
+
+    </ion-card-content>
+  </ion-card>
+</ion-content>
+

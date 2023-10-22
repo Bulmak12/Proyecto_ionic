@@ -1,7 +1,17 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { retry } from 'rxjs/operators';
+import { showToast } from '../tools/message-routines';
+
+export interface Publicacion {
+  id: string,
+  correo: string;
+  nombre: string;
+  apellido: string;
+  titulo: string;
+  contenido: string;
+};
 
 @Injectable({
   providedIn: 'root'
@@ -15,50 +25,50 @@ export class APIClientService {
     })
   };
 
-  //apiUrl = 'https://jsonplaceholder.typicode.com';
-  apiUrl = 'http://localhost:3000';
+  listaPublicaciones: BehaviorSubject<Publicacion[]> = new BehaviorSubject<Publicacion[]>([]);
+  apiUrl = 'http://localhost:3000'; // Url al usar en navegador Web
+  //apiUrl = 'http://192.168.100.34:3000'; // Url al usar en mi celular en mi WIFI, tu puedes tener otra IP
+  
+  constructor(private http: HttpClient) { }
 
-  constructor(private http: HttpClient) {
+  async cargarPublicaciones() {
+    this.leerPublicaciones().subscribe({
+      next: (publicaciones) => {
+        this.listaPublicaciones.next(publicaciones as Publicacion[]);
+      },
+      error: (error: any) => {
+        showToast('El servicio API Rest de Publicaciones no está disponible');
+        this.listaPublicaciones.next([]);
+      }
+    });
   }
 
-  getUsuario(userId: number): Observable<any> {
-    return this.http.get(this.apiUrl + '/users/' + userId).pipe(
+  crearPublicacion(publicacion: any): Observable<any> {
+    return this.http.post(this.apiUrl + '/publicaciones/', publicacion, this.httpOptions).pipe(
       retry(3)
     );
   }
 
-  getUsuarios(): Observable<any> {
-    return this.http.get(this.apiUrl + '/users/').pipe(
+  leerPublicaciones(): Observable<any> {
+    return this.http.get(this.apiUrl + '/publicaciones/').pipe(
       retry(3)
     );
   }
 
-  getPublicaciones(): Observable<any> {
-    return this.http.get(this.apiUrl + '/posts/').pipe(
+  leerPublicacion(idPublicacion: number): Observable<any> {
+    return this.http.get(this.apiUrl + '/publicaciones/' + idPublicacion).pipe(
       retry(3)
     );
   }
 
-  getPublicacion(idPublicacion: number): Observable<any> {
-    return this.http.get(this.apiUrl + '/posts/' + idPublicacion).pipe(
-      retry(3)
-    );
-  }
-
-  createPublicacion(publicacion: any): Observable<any> {
-    return this.http.post(this.apiUrl + '/posts/', publicacion, this.httpOptions).pipe(
-      retry(3)
-    );
-  }
-
-  updatePublicacion(publicacion: any): Observable<any> {
-    return this.http.put(this.apiUrl + '/posts/' + publicacion.id, publicacion, this.httpOptions)
+  actualizarPublicacion(publicacion: any): Observable<any> {
+    return this.http.put(this.apiUrl + '/publicaciones/' + publicacion.id, publicacion, this.httpOptions)
       .pipe(retry(3)
     );
   }
 
-  deletePublicacion(publicacionId: number): Observable<any> {
-    return this.http.delete(this.apiUrl + '/posts/' + publicacionId, this.httpOptions).pipe(
+  eliminarPublicacion(publicacionId: number): Observable<any> {
+    return this.http.delete(this.apiUrl + '/publicaciones/' + publicacionId, this.httpOptions).pipe(
       retry(3)
     );
   }

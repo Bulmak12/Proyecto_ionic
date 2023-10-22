@@ -29,7 +29,7 @@ export class DataBaseService {
   db!: SQLiteDBConnection;
   listaUsuarios: BehaviorSubject<Usuario[]> = new BehaviorSubject<Usuario[]>([]);
   listaUsuariosFueActualizada: BehaviorSubject<boolean> = new BehaviorSubject(false);
-
+  datosQR: BehaviorSubject<string> = new BehaviorSubject('');
   constructor(private sqliteService: SQLiteService) { }
 
   async inicializarBaseDeDatos() {

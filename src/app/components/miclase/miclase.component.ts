@@ -1,15 +1,29 @@
-import { Component, OnInit } from '@angular/core';
+import { DataBaseService } from 'src/app/services/data-base.service';
+import { Component } from '@angular/core';
+import { Asistencia } from 'src/app/model/asistencia';
+import { IonicModule, ViewWillEnter } from '@ionic/angular';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-miclase',
   templateUrl: './miclase.component.html',
   styleUrls: ['./miclase.component.scss'],
-  standalone: true
+  imports: [IonicModule, CommonModule, FormsModule],
+  standalone: true,
 })
-export class MiclaseComponent  implements OnInit {
+export class MiclaseComponent  implements ViewWillEnter {
 
-  constructor() { }
+  asistencia= new Asistencia();
 
-  ngOnInit() {}
+  constructor(private bd: DataBaseService) { 
+    this.bd.datosQR.subscribe((datosQR) => {
+      this.asistencia = new Asistencia().obtenerAsistenciaDesdeQR(datosQR);
+    })
+  }
+
+  ionViewWillEnter() {
+    this.asistencia = new Asistencia();
+  }
 
 }

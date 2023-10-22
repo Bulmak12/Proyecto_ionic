@@ -50,20 +50,7 @@ export class AuthService {
   }
 
   async verificarcorreo(correo: string) {
-    await this.storage.get(this.keyUsuario).then(async (usuarioAutenticado) => {
-      if (usuarioAutenticado) {
-        this.router.navigate(['pregunta']);
-      } else {
-        await this.bd.leerUsuario(correo).then(async (usuario: Usuario | undefined) => {
-          if (usuario) {
-            this.router.navigate(['pregunta']);
-          } else {
-            showToast(`El correo o la password son incorrectos`);
-            this.router.navigate(['incorrecto']);
-          }
-        });
-      }
-    });
+    await this.bd.ValidarCorreo(correo);
   }
   async verificarPregunta(preguntaSecreta: string) {
     await this.storage.get(this.keyUsuario).then(async (usuarioAutenticado) => {
@@ -127,5 +114,8 @@ export class AuthService {
   async leerUsuarioAutenticado(): Promise<Usuario | undefined> {
     return this.storage.get(this.keyUsuario).then(usuario => usuario as Usuario);
   }
-
+  setUsuarioAutenticado(usuario: Usuario) {
+    this.storage.set(this.keyUsuario, usuario);
+    this.usuarioAutenticado.next(usuario);
+  }
 }

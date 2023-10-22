@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { Usuario } from 'src/app/model/Usuario';
 import { DataBaseService } from 'src/app/services/data-base.service';
+import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-correcto',
   templateUrl: './correcto.page.html',
@@ -18,20 +19,22 @@ export class CorrectoPage implements ViewWillEnter {
   password: string = '';
   listaUsuarios: Usuario[] = [];
 
-  constructor(private bd: DataBaseService,private authService: AuthService,private router: Router) { }
+  constructor(private bd: DataBaseService,    private activeroute: ActivatedRoute,
+    private authService: AuthService,private router: Router) { 
+    this.activeroute.queryParams.subscribe(params => {       // Utilizamos expresión lambda
+      const navigation = this.router.getCurrentNavigation();
+      if (navigation) {
+        if (navigation.extras.state) { // Validar que tenga datos extras
+          // Si tiene datos extra, se rescatan y se asignan a una propiedad
+          this.usuario = navigation.extras.state['usuario'];
+        }}
+  });
+  }
   ionViewWillEnter(): void {
-    this.bd.listaUsuarios.subscribe(usuarios => {
-      this.listaUsuarios = usuarios;
-    });
-    this.authService.leerUsuarioAutenticado().then((usuario) => {
-      this.usuario = usuario;
-    })
+
   }
   ngOnInit() {
   }
-  verificarPassword()  {
-    this.authService.verificarPassword(this.password);    
-    }
   public ingreso(): void {
     this.router.navigate(['/ingreso']); // Navegamos hacia el Home y enviamos la información extra
   }

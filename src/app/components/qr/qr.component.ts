@@ -1,160 +1,174 @@
-import { Component, ElementRef, ViewChild,AfterViewInit } from '@angular/core';
-import { LoadingController } from '@ionic/angular';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { Component, ElementRef, NgZone, OnInit, Output, ViewChild } from '@angular/core';
+import { IonicModule } from '@ionic/angular';
+import { Usuario } from 'src/app/model/Usuario'; 
+import { Asistencia } from 'src/app/model/asistencia';
+import { AuthService } from 'src/app/services/auth.service';
 import jsQR, { QRCode } from 'jsqr';
+import { BehaviorSubject } from 'rxjs';
+import { EventEmitter } from '@angular/core';
+import { showAlertDUOC, showAlertYesNoDUOC } from 'src/app/tools/message-routines';
+import { BarcodeFormat, BarcodeScanner, ScanResult } from '@capacitor-mlkit/barcode-scanning';
+import { MessageEnum } from 'src/app/tools/message-enum';
+import { SQLiteService } from 'src/app/services/sqlite.service';
+import { DataBaseService } from 'src/app/services/data-base.service';
+
 @Component({
   selector: 'app-qr',
   templateUrl: './qr.component.html',
   styleUrls: ['./qr.component.scss'],
-  standalone: true
+  imports: [IonicModule, CommonModule, FormsModule],
+  standalone: true,
 })
-export class QrComponent  implements AfterViewInit {
-  @ViewChild('video', { static: false })
-  private video!: ElementRef;
+export class QrComponent implements OnInit {
 
-  @ViewChild('canvas', { static: false })
-  private canvas!: ElementRef;
+  @ViewChild('video') private video!: ElementRef;
+  @ViewChild('canvas') private canvas!: ElementRef;
+  @Output() qrCapturado: EventEmitter<string> = new EventEmitter();
 
-  @ViewChild('fileinput', { static: false })
-  private fileinput!: ElementRef;
-
+  usuario = new Usuario();
+  public asistencia: Asistencia = new Asistencia();
   public escaneando = false;
-  public datosQR = '';
-  public loading: HTMLIonLoadingElement | null = null;
+  public datosQR: string = '';
+  public datosMiClase = new BehaviorSubject<Asistencia | null>(null);
+  plataforma = 'web';
 
-  public bloqueInicio: number = 0;
-  public bloqueTermino: number = 0;
-  public dia: string = '';
-  public horaFin: string = '';
-  public horaInicio: string = '';
-  public idAsignatura: string = '';
-  public nombreAsignatura: string = '';
-  public nombreProfesor: string = '';
-  public seccion: string = '';
-  public sede: string = '';
+  constructor(
+    private authService: AuthService,
+    private bd: DataBaseService,
+    private sqliteService: SQLiteService,
+    private readonly ngZone: NgZone) { }
 
-  public constructor(private loadingController: LoadingController) {
-
-  }
-
-  ngAfterViewInit() {
-    this.limpiarDatos();
-  }
-
-  public limpiarDatos(): void {
-    this.escaneando = false;
-    this.datosQR = '';
-    if (this.loading) {
-      this.loading.dismiss(); // Cierra el loading si está presente
-      this.loading = null;
-    }
-    const fileInput = document.getElementById('input-file') as HTMLInputElement;
-    if (fileInput) {
-      fileInput.value = ''; // Esto limpia el valor del input file
-    }
+  async ngOnInit() {
+    this.plataforma = this.sqliteService.platform;
+    this.authService.usuarioAutenticado.subscribe((usuario) => {
+      if (usuario !== null) {
+        this.usuario = usuario!;
+      }
+    })
+    const usu = await this.authService.leerUsuarioAutenticado();
+    this.usuario = usu!;
   }
 
   async comenzarEscaneoQR() {
-    this.limpiarDatos();
-  
-    try {
-      const mediaProvider: MediaProvider = await navigator.mediaDevices.getUserMedia({ video: true });
-      this.video.nativeElement.srcObject = mediaProvider;
-      this.video.nativeElement.setAttribute('playsinline', 'true');
-      
-      this.loading = await this.loadingController.create({});
-      await this.loading.present();
-      
-      this.video.nativeElement.play();
-      requestAnimationFrame(this.verificarVideo.bind(this));
-    } catch (error) {
-      // Manejar errores de permisos de cámara u otros aquí
-      console.error('Error al acceder a la cámara:', error);
-    }
-  }
-  public obtenerDatosQR(source?: CanvasImageSource): boolean {
-    let w = 0;
-    let h = 0;
-    if (!source) {
-      this.canvas.nativeElement.width = this.video.nativeElement.videoWidth;
-      this.canvas.nativeElement.height = this.video.nativeElement.videoHeight;
-    }
-  
-    w = this.canvas.nativeElement.width;
-    h = this.canvas.nativeElement.height;
-    //console.log(w + ' ' + h);
-  
-    const context: CanvasRenderingContext2D = this.canvas.nativeElement.getContext('2d');
-    context.drawImage(source ? source : this.video.nativeElement, 0, 0, w, h);
-    const img: ImageData = context.getImageData(0, 0, w, h);
-    const qrCode: QRCode | null = jsQR(img.data, img.width, img.height, { inversionAttempts: 'dontInvert' });
-  
-    if (qrCode !== null) {
-      this.escaneando = false;
-      this.datosQR = qrCode.data;
-      this.mostrarDatosQROrdenados(this.datosQR);
-      return true;
+    if (this.plataforma === 'web') {
+      this.comenzarEscaneoQRWeb();
     } else {
-      // Manejar el caso en que qrCode sea null
-      return false;
+      this.comenzarEscaneoQRNativo();
     }
   }
 
-  public mostrarDatosQROrdenados(datosQR: string): void {
-    const objetoDatosQR = JSON.parse(datosQR);
-    this.bloqueInicio = objetoDatosQR.bloqueInicio;
-    this.bloqueTermino = objetoDatosQR.bloqueTermino;
-    this.dia = objetoDatosQR.dia;
-      
-    this.horaFin = objetoDatosQR.horaFin;
-    this.horaInicio = objetoDatosQR.horaInicio;
-    this.idAsignatura = objetoDatosQR.idAsignatura;
-    this.nombreAsignatura = objetoDatosQR.nombreAsignatura;
-    this.nombreProfesor = objetoDatosQR.nombreProfesor;
-    this.seccion = objetoDatosQR.seccion;
-    this.sede = objetoDatosQR.sede;
+  /**
+   *  Proceso de escanéo de QR en un Navegador Web
+   */
+
+  public async comenzarEscaneoQRWeb() {
+    const mediaProvider: MediaProvider = await navigator.mediaDevices.getUserMedia({
+      video: {facingMode: 'environment'}
+    });
+    this.video.nativeElement.srcObject = mediaProvider;
+    this.video.nativeElement.setAttribute('playsinline', 'true');
+    this.video.nativeElement.play();
+    this.escaneando = true;
+    requestAnimationFrame(this.verificarVideo.bind(this));
   }
 
   async verificarVideo() {
     if (this.video.nativeElement.readyState === this.video.nativeElement.HAVE_ENOUGH_DATA) {
-      if (this.loading) {
-        await this.loading.dismiss();
-        this.escaneando = true;
-      }
-      if (this.obtenerDatosQR()) {
-        console.log(1);
-      } else {
-        if (this.escaneando) {
-          console.log(2);
-          requestAnimationFrame(this.verificarVideo.bind(this));
-        }
-      }
+      if (this.obtenerDatosQR() || !this.escaneando) return;
+      requestAnimationFrame(this.verificarVideo.bind(this));
     } else {
-      console.log(3);
       requestAnimationFrame(this.verificarVideo.bind(this));
     }
   }
 
+  public obtenerDatosQR(): boolean {
+    const w: number = this.video.nativeElement.videoWidth;
+    const h: number = this.video.nativeElement.videoHeight;
+    this.canvas.nativeElement.width = w;
+    this.canvas.nativeElement.height = h;
+    const context: CanvasRenderingContext2D = this.canvas.nativeElement.getContext('2d');
+    context.drawImage(this.video.nativeElement, 0, 0, w, h);
+    const img: ImageData = context.getImageData(0, 0, w, h);
+    let qrCode: QRCode | null = jsQR(img.data, w, h, { inversionAttempts: 'dontInvert' });
+    if (qrCode) {
+      const data = qrCode.data;
+      if (data !== '') {
+        this.escaneando = false;
+        if (this.asistencia.verificarAsistenciaDesdeQR(qrCode.data)) {
+          this.bd.datosQR.next(qrCode.data);
+          this.qrCapturado.emit(qrCode.data);
+        } else {
+          showAlertDUOC('El código QR escaneado no corresponde a una Asistencia de DUOC');
+        }
+        return true;
+      }
+    }
+    return false;
+  }
+  
   public detenerEscaneoQR(): void {
     this.escaneando = false;
   }
 
-  public cargarImagenDesdeArchivo(): void {
-    this.limpiarDatos();
-    this.fileinput.nativeElement.click();
-  }
+  /**
+   *  Proceso de escanéo de QR nativo en Android
+   *  Ver: https://github.com/capawesome-team/capacitor-barcode-scanning
+   */
 
-  public verificarArchivoConQR(event: any): void {
-    const files: FileList = event.target.files;
-    if (files && files.length > 0) {
-      const file = files.item(0);
-      if (file) {
-        const img = new Image();
-        img.onload = () => {
-          this.obtenerDatosQR(img);
-        };
-        img.src = URL.createObjectURL(file);
-      }
+  async comenzarEscaneoQRNativo() {
+    const datosQR = await this.escanearQRNativo();
+    if (datosQR === '') return;
+    if (datosQR.includes('Error: ')) {
+      showAlertDUOC(datosQR.substring(7));
+      return;
+    }
+    if (this.asistencia.verificarAsistenciaDesdeQR(datosQR)) {
+      this.bd.datosQR.next(datosQR);
+      this.qrCapturado.emit(datosQR);
+    } else {
+      showAlertDUOC('El código QR escaneado no corresponde a una Asistencia de DUOC');
     }
   }
-}
 
+  public async escanearQRNativo(): Promise<string> {
+    try {
+      // Verificar si está instalado Google Barcode Scanner y si no lo instala
+      await BarcodeScanner.isGoogleBarcodeScannerModuleAvailable().then(async (result) => {
+          if (!result.available) await BarcodeScanner.installGoogleBarcodeScannerModule();
+      });
+
+      // Verificar que BarcodeScanner sea soportado por el sistema
+      if (!await BarcodeScanner.isSupported()) 
+        return Promise.resolve('ERROR: Google Barcode Scanner no es compatible con este celular');
+
+      // Solicitar permisos para usar la cámara con BarcodeScanner
+      let status = await BarcodeScanner.checkPermissions();
+      if (status.camera === 'denied') status = await BarcodeScanner.requestPermissions();
+      if (status.camera === 'denied') {
+        const resp = await showAlertYesNoDUOC('No fue posible otorgar permisos a la cámara. ¿Quiere '
+          + 'acceder a las opciones de configuración de la aplicación y darle permiso manualmente?');
+        if (resp === MessageEnum.YES) await BarcodeScanner.openSettings();
+        return Promise.resolve('');
+      }
+
+      // Eliminar oyentes de eventos de BarcodeScanner antes de registrar uno nuevo. 
+      await BarcodeScanner.removeAllListeners().then(() => {
+        BarcodeScanner.addListener('googleBarcodeScannerModuleInstallProgress', (event) => {
+          this.ngZone.run(() => {
+              console.log('googleBarcodeScannerModuleInstallProgress', event);
+          });
+        });
+      });
+
+      // Devolver valor del QR capturado
+      const { barcodes }: ScanResult = await BarcodeScanner.scan({ formats: [BarcodeFormat.QrCode],});
+      return Promise.resolve(barcodes[0].displayValue);
+    } catch(error: any) {
+      if (error.message.includes('canceled')) return Promise.resolve('');
+      return Promise.resolve('ERROR: No fue posible leer el código QR');
+    }
+  }
+
+}

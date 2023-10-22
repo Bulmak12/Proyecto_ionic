@@ -21,12 +21,14 @@
     </ion-card-header>
   
     <ion-card-content>
-      <H2>Tu contraseña es:</H2>
-      <p *ngIf="usuario"> {{ usuario.password }}</p>  
       <br>
+      <h2 *ngIf="usuario">Hola  ¡{{ usuario.nombre }} {{ usuario.apellido }}!</h2>  
+      <H2>Tu contraseña es:</H2>
+      <p *ngIf="usuario">{{ usuario.password }}</p>  
     <h1></h1>
     </ion-card-content>
-    <ion-button (click)="ingreso()" expand="block" fill="clear" shape="round">
+    <h1></h1>
+    <ion-button (click)="ingreso()" expand="block" fill="clear" shape="round" class="botonNaranja">
       volver al login
     </ion-button>    <h1></h1>
   </ion-card>

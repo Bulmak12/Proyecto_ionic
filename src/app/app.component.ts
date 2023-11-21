@@ -11,7 +11,7 @@ import { IonicModule } from '@ionic/angular';
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppComponent {
-
+  title = 'Mi proyecto de pruebas';
   public environmentInjector = inject(EnvironmentInjector);
 
   constructor() {}

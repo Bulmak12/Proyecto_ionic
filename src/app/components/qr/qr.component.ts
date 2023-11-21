@@ -47,8 +47,6 @@ export class QrComponent implements OnInit {
         this.usuario = usuario!;
       }
     })
-    const usu = await this.authService.leerUsuarioAutenticado();
-    this.usuario = usu!;
   }
 
   async comenzarEscaneoQR() {

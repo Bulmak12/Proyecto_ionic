@@ -18,7 +18,6 @@ export class MisdatosComponent  implements OnInit {
 
   usuario = new Usuario();
   repeticionPassword = '';
-  
 
   constructor(private authService: AuthService, private bd: DataBaseService) { }
 
@@ -29,8 +28,6 @@ export class MisdatosComponent  implements OnInit {
         this.repeticionPassword = usuario!.password;
       }
     })
-    const usu = await this.authService.leerUsuarioAutenticado();
-    this.usuario = usu!;
   }
 
   mostrarMensaje(nombreCampo:string, valor: string) {

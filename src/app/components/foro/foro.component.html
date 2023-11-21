@@ -3,8 +3,7 @@
   <ion-card>
 
     <ion-card-header>
-      <ion-card-title class="subtitulo-grande centrar">¡Foro Today!</ion-card-title>
-      <ion-card-subtitle class="centrar">Publicador: {{usuario.nombre}} {{usuario.apellido}}</ion-card-subtitle>
+      <ion-card-title>Ingresa tu publicación</ion-card-title>
     </ion-card-header>
 
     <ion-item class="ion-padding-horizontal">
@@ -15,7 +14,7 @@
       <ion-textarea [(ngModel)]="publicacion.contenido" label="Contenido" labelPlacement="floating"></ion-textarea>
     </ion-item>
 
-    <div class="alinear-centro centrar">
+    <div class="alinear-centro">
       <ion-button (click)="limpiarPublicacion()">Limpiar</ion-button>
       <ion-button (click)="guardarPublicacion()">Guardar</ion-button>
     </div>

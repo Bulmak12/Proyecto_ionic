@@ -54,12 +54,14 @@
             <ion-input [(ngModel)]="password" type="text" label="Contraseña" labelPlacement="floating"></ion-input>
 
           </ion-item>
-<br>
+
           <!-- Se debe usar (click) para enlazar con el método de la clase en typescript -->
           <ion-button shape="block" (click)="ingresar()" class="botonNaranja">Ingresar</ion-button>
 
+      
       <ion-label>
-        <ion-button shape="block" (click)="recuperar()" class="botonNaranja" routerLink="">Recuperar Contraseña</ion-button>
+        <br>
+        <ion-button shape="block" (click)="recuperar()" routerLink="">Recuperar Contraseña</ion-button>
       </ion-label>
     </ion-card>
     </div>

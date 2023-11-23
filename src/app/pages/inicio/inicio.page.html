@@ -23,6 +23,10 @@
         <ion-label>misdatos</ion-label>
       </ion-segment-button>
 
+      <ion-segment-button value="admin">
+        <ion-label>admin</ion-label>
+      </ion-segment-button>
+
     </ion-segment>
 
   </ion-toolbar>
@@ -34,6 +38,7 @@
   <app-miclase [hidden]="componente_actual != 'miclase'"></app-miclase>
   <app-foro [hidden]="componente_actual != 'foro'"></app-foro>
   <app-misdatos [hidden]="componente_actual != 'misdatos'"></app-misdatos>
+  <app-admin [hidden]="componente_actual != 'admin'"></app-admin>
 
 </ion-content>
 <ion-footer>

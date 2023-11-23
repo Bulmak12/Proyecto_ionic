@@ -11,6 +11,7 @@ import { MiclaseComponent } from 'src/app/components/miclase/miclase.component';
 import { ForoComponent } from 'src/app/components/foro/foro.component';
 import { MisdatosComponent } from 'src/app/components/misdatos/misdatos.component';
 import { QrComponent } from 'src/app/components/qr/qr.component';
+import { AdminComponent } from 'src/app/components/admin/admin.component';
 @Component({
   selector: 'app-inicio',
   templateUrl: 'inicio.page.html',
@@ -18,7 +19,9 @@ import { QrComponent } from 'src/app/components/qr/qr.component';
   imports: [IonicModule, CommonModule, FormsModule,QrComponent,
     MiclaseComponent,
     ForoComponent,
-    MisdatosComponent],
+    MisdatosComponent,
+    AdminComponent,
+    ],
   standalone: true
 })
 export class InicioPage implements OnInit {

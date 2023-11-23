@@ -30,4 +30,8 @@ export class IngresoPage implements OnInit {
   public recuperar(): void {
     this.router.navigate(['/recuperar']); // Navegamos hacia el Home y enviamos la información extra
   }
+
+  public registrar(): void {
+    this.router.navigate(['/registro']);
+  }
 }

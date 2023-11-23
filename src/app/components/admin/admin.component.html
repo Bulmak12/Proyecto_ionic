@@ -1,3 +1,58 @@
-<p>
-  admin works!
-</p>
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Administrar usuarios</ion-title>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-title>
+      Eliminación de usuarios
+      <br>
+      <span class="cantidad-usuarios" *ngIf="cantidad === 0">
+        No existen usuarios en la base de datos
+      </span>
+      <span class="cantidad-usuarios" *ngIf="cantidad === 1">
+        Existe 1 usuario en la base de datos
+      </span>
+      <span class="cantidad-usuarios" *ngIf="cantidad > 1">
+        Existen {{cantidad}} usuarios en la base de datos
+      </span>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <a id="topOfPage" href="#topOfPage"></a>
+  
+  <ion-card *ngFor="let u of usuarios">
+
+    <ion-card-header>
+      <h4>{{u.nombre}}</h4>
+    </ion-card-header>
+  
+    <ion-card-content>
+      <ion-grid fixed>
+        <ion-row>
+          <ion-col size="6">Correo</ion-col>
+          <ion-col size="6">{{u.correo}}</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="6">Contraseña</ion-col>
+          <ion-col size="6">{{u.password}}</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="6">Pregunta secreta</ion-col>
+          <ion-col size="6">{{u.preguntaSecreta}}</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="6">Respuesta secreta</ion-col>
+          <ion-col size="6">{{u.respuestaSecreta}}</ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+
+    <ion-button (click)="eliminarUsuario(u.correo)">
+      <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+    </ion-button>
+    
+  </ion-card>
+
+</ion-content>

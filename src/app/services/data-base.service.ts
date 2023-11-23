@@ -4,6 +4,7 @@ import { SQLiteService } from './sqlite.service';
 import { Usuario } from '../model/Usuario';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { showAlert, showAlertDUOC, showAlertError } from '../model/Message';
+import { capSQLiteChanges, DBSQLiteValues} from '@capacitor-community/sqlite';
 
 @Injectable()
 export class DataBaseService {
@@ -30,6 +31,13 @@ export class DataBaseService {
   listaUsuarios: BehaviorSubject<Usuario[]> = new BehaviorSubject<Usuario[]>([]);
   listaUsuariosFueActualizada: BehaviorSubject<boolean> = new BehaviorSubject(false);
   datosQR: BehaviorSubject<string> = new BehaviorSubject('');
+
+  sqlDeleteUser = 'DELETE FROM USUARIO WHERE correo = ?';
+  sqlSelectUser = 'SELECT * FROM Usuario WHERE correo=? AND password=? LIMIT 1';
+  sqlSelectAllUsers = 'SELECT * FROM Usuario';
+  sqlInsertUser = 'INSERT OR REPLACE INTO Usuario (correo, password, nombre, apellido, preguntaSecreta, respuestaSecreta, sesionActiva) VALUES (?,?,?,?,?,?,?)';
+
+  
   constructor(private sqliteService: SQLiteService) { }
 
   async inicializarBaseDeDatos() {
@@ -127,4 +135,54 @@ export class DataBaseService {
     await this.db.run(sql, [sesionActiva, correo]);
     await this.leerUsuarios();
   }
+
+  async deleteUser(correo: string): Promise<capSQLiteChanges> {
+    return await this.db.run(this.sqlDeleteUser, [correo]);
+}
+
+async readUsers(): Promise<DBSQLiteValues> {
+  return await this.db.query(this.sqlSelectAllUsers);
+}
+
+async readUser(correo: string, password: string, hideSecrets: boolean): Promise<Usuario> {
+  try {
+    const rs = await this.db.query(this.sqlSelectUser, [correo, password]);
+
+    console.log('Result:', rs);
+    console.log('Values:', rs.values);
+
+    if (!rs.values || rs.values.length === 0) {
+      // Si no se encuentra un usuario, devolvemos un objeto Usuario vacío o con valores por defecto
+      return new Usuario(); // Puedes establecer valores por defecto aquí si es necesario
+    }
+
+    const r = rs.values[0];
+    const usu = new Usuario();
+
+    usu.setUsuario(
+      r.correo,
+      r.password,
+      r.nombre,
+      r.apellido,
+      r.preguntaSecreta,
+      r.respuestaSecreta,
+      r.sesionActiva,
+      hideSecrets
+    );
+
+    return usu;
+  } catch (error) {
+    console.error('Error:', error);
+    // Maneja el error devolviendo un objeto Usuario por defecto o maneja el error de otra manera según tu lógica
+    return new Usuario(); // Puedes establecer valores por defecto aquí si es necesario
+  }
+}
+
+//----------------------------------//
+
+async createUser(correo: string, password: string, nombre: string, apellido: string, preguntaSecreta: string, respuestaSecreta: string, sesionActiva: string): Promise<capSQLiteChanges> {
+  return await this.db.run(this.sqlInsertUser, [correo, password, nombre, apellido, preguntaSecreta, respuestaSecreta, sesionActiva]);
+}
+
+
 }

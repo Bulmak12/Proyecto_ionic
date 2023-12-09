@@ -44,14 +44,14 @@
           <ion-item>
             <!-- Usamos ngModel para indicarle al input que se ligará con la propiedad "usuario.correo" -->
            
-           <ion-input [(ngModel)]="correo" type="text" label="Correo" labelPlacement="floating"></ion-input>
+           <ion-input id="correo" [(ngModel)]="correo" type="text" label="Correo" labelPlacement="floating"></ion-input>
 
           </ion-item>
           
           <!-- Item de contraseña -->
           <ion-item>
             <!-- Usamos ngModel para indicarle al input que se ligará con la propiedad "usuario.password" -->
-            <ion-input [(ngModel)]="password" type="text" label="Contraseña" labelPlacement="floating"></ion-input>
+            <ion-input id="password" [(ngModel)]="password" type="password" label="Contraseña" labelPlacement="floating"></ion-input>
 
           </ion-item>
 

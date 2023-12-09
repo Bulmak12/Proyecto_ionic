@@ -1,46 +1,56 @@
 <ion-header [translucent]="true">
-
-  <ion-toolbar>
-    <ion-title>Asistencia Duoc
-    </ion-title>
+  <ion-toolbar  color="white">
+    <ion-title #titulo>Asistencia DUOC</ion-title>
   </ion-toolbar>
 
   <ion-toolbar>
     <ion-segment value="qr" (ionChange)="cambiarComponente($event)">
-      <ion-segment-button value="qr">
+      <!-- Muestra 'app-qr' si no es admin -->
+      <ion-segment-button *ngIf="!esAdmin" value="qr">
         <ion-label>QR</ion-label>
       </ion-segment-button>
-  
-      <ion-segment-button value="miclase">
+
+      <!-- Muestra 'app-miclase' si no es admin -->
+      <ion-segment-button *ngIf="!esAdmin" value="miclase">
         <ion-label>miclase</ion-label>
       </ion-segment-button>
 
+      <!-- Muestra 'app-foro' a ambos tipos de usuario -->
       <ion-segment-button value="foro">
         <ion-label>foro</ion-label>
       </ion-segment-button>
 
+      <!-- Muestra 'app-misdatos' a ambos tipos de usuario -->
       <ion-segment-button value="misdatos">
         <ion-label>misdatos</ion-label>
       </ion-segment-button>
 
-      <ion-segment-button value="admin">
+      <!-- Muestra 'app-admin' solo si es admin -->
+      <ion-segment-button *ngIf="esAdmin" value="admin">
         <ion-label>admin</ion-label>
       </ion-segment-button>
 
     </ion-segment>
-
   </ion-toolbar>
-
 </ion-header>
 
 <ion-content>
-  <app-qr [hidden]="componente_actual != 'qr'"></app-qr>
-  <app-miclase [hidden]="componente_actual != 'miclase'"></app-miclase>
-  <app-foro [hidden]="componente_actual != 'foro'"></app-foro>
-  <app-misdatos [hidden]="componente_actual != 'misdatos'"></app-misdatos>
-  <app-admin [hidden]="componente_actual != 'admin'"></app-admin>
+  <!-- Muestra 'app-qr' si no es admin -->
+  <app-qr [hidden]="componente_actual !== 'qr' || esAdmin"></app-qr>
 
+  <!-- Muestra 'app-miclase' si no es admin -->
+  <app-miclase [hidden]="componente_actual !== 'miclase' || esAdmin"></app-miclase>
+
+  <!-- Muestra 'app-foro' a ambos tipos de usuario -->
+  <app-foro [hidden]="componente_actual !== 'foro'"></app-foro>
+
+  <!-- Muestra 'app-misdatos' a ambos tipos de usuario -->
+  <app-misdatos [hidden]="componente_actual !== 'misdatos'"></app-misdatos>
+
+  <!-- Oculta 'app-admin' si no es admin -->
+  <app-admin [hidden]="componente_actual !== 'admin' || !esAdmin"></app-admin>
 </ion-content>
+
 <ion-footer>
   <ion-toolbar>
     <ion-button (click)="cerrarSesion()" expand="block" fill="clear" shape="round">

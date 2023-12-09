@@ -26,25 +26,25 @@ export class AuthService {
   }
 
   async login(correo: string, password: string) {
-    await this.storage.get(this.keyUsuario).then(async (usuarioAutenticado) => {
-      if (usuarioAutenticado) {
+    await this.bd.validarUsuario(correo, password).then(async (usuario: Usuario | undefined) => {
+      if (usuario) {
+        showToast(`¡Bienvenido(a) ${usuario.nombre} ${usuario.apellido}!`);
         this.bd.actualizarSesionActiva(correo, 'S');
-        this.storage.set(this.keyUsuario, usuarioAutenticado);
-        this.usuarioAutenticado.next(usuarioAutenticado);
-        this.router.navigate(['inicio']);
+        this.storage.set(this.keyUsuario, usuario);
+        this.usuarioAutenticado.next(usuario);
+  
+        // Aquí identificamos si el usuario es admin
+        const esAdmin = this.verificarSiEsAdmin(usuario); // Implementa esta función
+        if (esAdmin) {
+          // Si es admin, navega al dashboard de admin
+          this.router.navigate(['inicio']);
+        } else {
+          // Si no es admin, navega al dashboard de usuario normal
+          this.router.navigate(['inicio']);
+        }
       } else {
-        await this.bd.validarUsuario(correo, password).then(async (usuario: Usuario | undefined) => {
-          if (usuario) {
-            showToast(`¡Bienvenido(a) ${usuario.nombre} ${usuario.apellido}!`);
-            this.bd.actualizarSesionActiva(correo, 'S');
-            this.storage.set(this.keyUsuario, usuario);
-            this.usuarioAutenticado.next(usuario);
-            this.router.navigate(['inicio']);
-          } else {
-            showToast(`El correo o la password son incorrectos`);
-            this.router.navigate(['ingreso']);
-          }
-        });
+        showToast(`El correo o la contraseña son incorrectos`);
+        this.router.navigate(['/ingreso']);
       }
     });
   }
@@ -83,17 +83,9 @@ export class AuthService {
       }
     });
   }
-  async verificarPassword(password: string) {
-    await this.storage.get(this.keyUsuario).then(async (usuarioAutenticado) => {
-      if (usuarioAutenticado) {
-      } else {
-        await this.bd.ValidarPassword(password).then(async (usuario: Usuario | undefined) => {
-          if (usuario) {
-          } else {
-          }
-        });
-      }
-    });
+  verificarSiEsAdmin(usuario: Usuario): boolean {
+    // Verifica si el campo 'tipo' del usuario es igual a 'admin'
+    return usuario && usuario.correo === 'admin';
   }
 
   async logout() {

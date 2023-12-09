@@ -57,11 +57,13 @@ export class DataBaseService {
 
   async crearUsuariosDePrueba() {
     const usu = new Usuario();
-    usu.setUsuario('atorres@duocuc.cl', '1234', 'Ana', 'Torres', 'Nombre de mi mascota', 'gato', 'N', false);
+    usu.setUsuario('atorres@duocuc.cl', '1234', 'Ana', 'Torres', 'Nombre de mi mascota', 'gato', 'Y', false);
     await this.guardarUsuario(usu);
     usu.setUsuario('avalenzuela@duocuc.cl', 'qwer', 'Alberto', 'Valenzuela', 'Mi mejor amigo', 'juanito', 'N', false);
     await this.guardarUsuario(usu);
-    usu.setUsuario('cfuentes@duocuc.cl', 'asdf', 'Carla', 'Fuentes', 'Dónde nació mamá', 'valparaiso', 'N', false);
+    usu.setUsuario('cfuentes@duocuc.cl', 'asdf', 'Carla', 'Fuentes', 'Dónde nació mamá', 'valparaiso', 'N', false);  
+    await this.guardarUsuario(usu);
+    usu.setUsuario('admin', 'admin', 'admin', 'admin1', 'cuanto es un 1TB en GB', '1000GB', 'N', false);  
     await this.guardarUsuario(usu);
   }
 
@@ -180,9 +182,29 @@ async readUser(correo: string, password: string, hideSecrets: boolean): Promise<
 
 //----------------------------------//
 
-async createUser(correo: string, password: string, nombre: string, apellido: string, preguntaSecreta: string, respuestaSecreta: string, sesionActiva: string): Promise<capSQLiteChanges> {
-  return await this.db.run(this.sqlInsertUser, [correo, password, nombre, apellido, preguntaSecreta, respuestaSecreta, sesionActiva]);
+async createUser(
+  correo: string,
+  password: string,
+  nombre: string,
+  apellido: string,
+  preguntaSecreta: string,
+  respuestaSecreta: string,
+  sesionActiva: string
+): Promise<capSQLiteChanges> {
+  // Verificar si el correo ya existe
+  const existingUser = await this.ValidarCorreo(correo);
+  if (existingUser) {
+    showAlertDUOC('Este correo ya está registrado. Por favor, utilice otro correo.');
+    return { changes: { changes: 0 } }; // Devuelve un objeto con cambios 0 para indicar que no se creó el usuario
+  }
+
+  // Si el correo no existe, crea el nuevo usuario
+  return await this.db.run(
+    this.sqlInsertUser,
+    [correo, password, nombre, apellido, preguntaSecreta, respuestaSecreta, sesionActiva]
+  );
 }
+
 
 
 }

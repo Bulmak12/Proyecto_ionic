@@ -1,17 +1,17 @@
-import { ComponentFixture, TestBed, fakeAsync, flush, inject, tick } from '@angular/core/testing';
-import { IngresoPage } from './pages/ingreso/ingreso.page'; 
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { RouterTestingModule } from '@angular/router/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { HttpTestingController } from '@angular/common/http/testing';
+import { IngresoPage } from './pages/ingreso/ingreso.page';
 import { DataBaseService } from 'src/app/services/data-base.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { Storage } from '@ionic/storage-angular';
-import { Router } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
 import { APIClientService } from 'src/app/services/apiclient.service';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { HttpClient, HttpEvent, HttpEventType, HttpHandler } from '@angular/common/http';
-
+import { HttpClient } from '@angular/common/http';
+import { HttpHandler } from '@angular/common/http';
 function suma(x: number, y: number) {
   return x + y;
 }

@@ -27,19 +27,19 @@ ion-content{
 }
 
 .custom-header {
-  --ion-toolbar-background: rgb(43, 42, 42);
-  --ion-tab-bar-background: rgb(43, 42, 42);
-  --ion-card-background: rgb(43, 42, 42);
-  color: white; /* Cambiar el color del texto a blanco o el que desees */
+  --ion-toolbar-background: rgb(255, 255, 255);
+  --ion-tab-bar-background: rgb(255, 255, 255);
+  --ion-card-background: rgb(255, 255, 255);
+  color: rgb(0, 0, 0); /* Cambiar el color del texto a blanco o el que desees */
 }
 
 /* Cambiar el fondo de la tarjeta a negro */
 .custom-card {
-  background-color: rgb(43, 42, 42);
-  color: white; /* Cambiar el color del texto a blanco o el que desees */
+  background-color: rgb(255, 255, 255);
+  color: rgb(0, 0, 0); /* Cambiar el color del texto a blanco o el que desees */
 }
 
 .blanco{
 
-  color: white;
+  color: rgb(0, 0, 0);
 }

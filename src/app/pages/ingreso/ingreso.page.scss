@@ -35,11 +35,20 @@ ion-content{
 
 /* Cambiar el fondo de la tarjeta a negro */
 .custom-card {
-  background-color: rgb(43, 42, 42);
+  background-color: rgb(255, 255, 255);
   color: white; /* Cambiar el color del texto a blanco o el que desees */
 }
 
 .blanco{
 
   color: white;
+}
+
+/* Agrega el estilo para la clase 'botonNaranja' */
+.botonNaranja {
+  /* Aquí puedes definir cualquier estilo específico para los botones con esta clase */
+  color: white; /* Cambia el color del texto a blanco o el que desees */
+  padding: 0px 0px; /* Ajusta el relleno (padding) horizontal y vertical */
+  border-radius: 8px; /* Agrega esquinas redondeadas */
+  /* Agrega otros estilos según sea necesario */
 }

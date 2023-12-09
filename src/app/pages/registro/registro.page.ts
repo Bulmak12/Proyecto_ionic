@@ -24,6 +24,7 @@ export class RegistroPage {
   preguntaSecreta = '';
   respuestaSecreta = '';
   sesionActiva = '';
+  confirmarPassword: string = '';
   cantidad = 0;
 
   constructor(private router: Router, private db: DataBaseService) { }
@@ -39,9 +40,19 @@ export class RegistroPage {
       showAlertError('RegistroPage.setUsersLength', err);
     });
   }
-
   async guardarUsuario() {
     try {
+      // Verificar campos obligatorios
+      if (!this.correo || !this.password || !this.nombre || !this.apellido || !this.preguntaSecreta || !this.respuestaSecreta || !this.confirmarPassword) {
+        showAlertDUOC('Todos los campos son obligatorios');
+        return;
+      }
+  
+      if (this.password !== this.confirmarPassword) {
+        showAlertDUOC('Las contraseñas no coinciden');
+        return;
+      }
+  
       this.sesionActiva = 'N';
       const resp: capSQLiteChanges = await this.db.createUser(
         this.correo,
@@ -56,8 +67,6 @@ export class RegistroPage {
       if (resp?.changes?.changes === 1) {
         showAlertDUOC('Su cuenta fue creada con éxito');
         this.router.navigate(['login']);
-      } else {
-        showAlertDUOC('Su cuenta no pudo ser creada con éxito. Comuníquese con el Administrador del Sistema o intente nuevamente más tarde');
       }
     } catch (err) {
       const error = err as Error; // Convertir el tipo unknown a Error
